@@ -1,0 +1,78 @@
+<%-include("header.ejs")%>
+
+<div class="container" style="margin-top: 20px;margin-bottom: 100px;">
+    <div class="row">
+        <div class="col-md-1">
+            
+            <img src="/upload/<%= product_info[0].product_image1 %>" onclick="main_image.src=this.src" class="product_info_image" alt="not found">
+            <img src="/upload/<%= product_info[0].product_image2 %>" onclick="main_image.src=this.src" class="product_info_image" alt="not found">
+            <img src="/upload/<%= product_info[0].product_image3 %>" onclick="main_image.src=this.src" class="product_info_image" alt="not found">
+            <img src="/upload/<%= product_info[0].product_image4 %>" onclick="main_image.src=this.src" class="product_info_image" alt="not found">
+        </div>
+        <!-- for image -->
+        <div class="col-md-4  " style="padding-left: 0px;">
+            <img id="main_image" src="/upload/<%= product_info[0].product_image1 %>" style="height: 500px; width: 500px;border-radius: 3px;">
+            <button onclick="product_pricing_id()" class="btn btn-dark" style="margin-left: 130px;margin-top: 15px;">ADD TO CART</button>
+        </div>
+        <!-- for details -->
+        <div class="col-md-7"style="">
+            <b><%= product_info[0].product_company %></b><br>
+            <p style="color: black; font-size: 30px;display: inline;"><%= product_info[0].product_name  %></p><br>
+            <h5 style="color: rgb(0, 182, 0);display: inline;">special price</h5><br>
+            <h2 style="color: rgb(0, 0, 0);display: inline; margin-right: 10px;" id="price">₹<%= price[0].product_price %>/-</h2>
+            <del id="dbprice" style="display: inline;">₹<%= price[0].product_duplicate_price %></del><br>
+            size : <p name="product_size" style="display: inline;" n id="selected_size"></p><br>
+            Sizes : <% price.map(function(item,i){ %>
+                
+                    <% if( item.product_price > 0){ %> 
+                    <div style="display: inline-block;">
+                        <button class="sizebtn" onclick="price('<%= item.product_size %>','₹<%= item.product_price %>/-','₹<%= item.product_duplicate_price %>',this,'<%= item.product_pricing_id %>')"  style="Color: black;background-color: transparent;border: 2px solid; height: 30px; padding: 5px;width: 50px;border-radius: 10px;"><%= item.product_size %></button>
+                    </div>
+                    <% } %>
+                <% }) %>
+                <br>
+            Color
+            <div style="color: black; margin-left: 20px;height: 50px; width: 50px;border: 1px solid; font-size: 14px;text-align: center;padding-top: 10px;background-color: <%= product_info[0].product_color %>;"><%= product_info[0].product_color %></div><br>
+            Detail : 
+            <div style="height: 100px; overflow-y: scroll; color: black;font-size: small;"><%= product_info[0].product_details  %></div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+<%-include("footer.ejs")%>
+<%-include("css.ejs") %>
+
+<script>
+    var active_product_pricing_id = '';
+    function price(size,val,val1,btn,product_pricing_id){
+        active_product_pricing_id=product_pricing_id;
+        document.getElementById('price').innerText=val;
+        document.getElementById('dbprice').innerText=val1;
+        let buttons = document.getElementsByClassName('sizebtn');
+        for (let i = 0; i < buttons.length; i++) {
+            
+            buttons[i].style.background = "transparent";
+            buttons[i].style.color = "black";
+        }
+        document.getElementById('selected_size').innerText=size;
+        btn.style.background = "black";
+        btn.style.color = "white";
+        
+    }
+    function product_pricing_id(){
+        var url = '/add_to_cart/<%= product_info[0].product_id %>/'+active_product_pricing_id;
+        // console.log(url);
+        location.href=url;
+
+    }
+</script>
+<style>
+    
+  
+</style>
+
+
+<!-- CREATE TABLE a2z50.add_to_cart(cart_id INT PRIMARY KEY AUTO_INCREAMENT,product_id INT,product_pricing_id INT,user_id INT,qty INT); -->

@@ -1,0 +1,214 @@
+<%-include("header.ejs")%>
+
+<style>
+  :root {
+    --primary-color: #111;
+    --accent-color: #d1b06b; /* Gold/Champagne accent */
+    --light-bg: #f8f8f8;
+    --text-muted: #666;
+    --transition-base: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  body { font-family: 'Inter', sans-serif; color: var(--primary-color); }
+
+  /* Hero Section - Professional Editorial Look */
+  .site-banner {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-size: cover !important;
+  }
+  .banner-content {
+    background: white;
+    padding: 3.5rem;
+    max-width: 550px;
+    box-shadow: 30px 30px 0px var(--accent-color); /* Professional offset shadow */
+  }
+  .banner-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+  }
+
+  /* Product Grid - Minimalist approach */
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+  }
+
+  .product-item {
+    margin-bottom: 40px;
+    border: none;
+    background: none;
+  }
+  .image-holder {
+    position: relative;
+    overflow: hidden;
+    background: var(--light-bg);
+    aspect-ratio: 3/4; /* Standard fashion photography ratio */
+  }
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-base);
+  }
+  .product-item:hover .product-image {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+
+  /* Professional Quick Action Bar */
+  .cart-concern {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    transform: translateY(100%);
+    transition: var(--transition-base);
+    padding: 15px;
+  }
+  .product-item:hover .cart-concern {
+    transform: translateY(0);
+  }
+
+  /* Category Pills */
+  .tab-pill {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 28px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: var(--transition-base);
+  }
+  .tab-pill.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+  }
+
+  /* Subscription Section */
+  #subscribe {
+    background: var(--primary-color);
+    color: white;
+    padding: 100px 0;
+  }
+  .subscribe-content input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #444;
+    color: white;
+    padding: 10px 0;
+    width: 70%;
+  }
+  .subscribe-content input:focus { outline: none; border-bottom-color: var(--accent-color); }
+</style>
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<section id="billboard" class="overflow-hidden">
+  <div class="swiper main-swiper">
+    <div class="swiper-wrapper">
+      <% slider.forEach(function(item) { %>
+      <div class="swiper-slide site-banner" style="background-image: url('/<%= item.image %>');">
+        <div class="container">
+          <div class="banner-content" data-aos="fade-right">
+            <h6 class="text-uppercase text-muted ls-2 mb-3">New Collection 2025</h6>
+            <h2 class="banner-title"><%= item.slider_title %></h2>
+            <p class="mb-4 text-secondary"><%= item.slider_disc %></p>
+            <a href="/<%= item.btn_url %>" class="btn btn-dark rounded-0 px-5 py-3 text-uppercase fw-bold">
+              <%= item.btn_text %>
+            </a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section id="selling-products" class="padding-large">
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-end mb-5">
+      <div data-aos="fade-up">
+        <h2 class="section-title">Curated Selection</h2>
+        <p class="text-muted">Explore our best-selling pieces designed for longevity.</p>
+      </div>
+     
+    </div>
+
+    <div class="tab-content">
+      <div id="all" class="active">
+        <div class="row">
+          <% products.forEach(function(product, index) { %>
+          <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="<%= (index % 4) * 100 %>">
+            <div class="product-item">
+              <div class="image-holder">
+                <img src="/upload/<%= product.product_image1 %>" class="product-image" alt="<%= product.product_name %>">
+                <div class="cart-concern">
+                  <a href="/view_product/<%= product.product_id %>"><button class="btn btn-dark w-100 rounded-0 text-uppercase small py-2">Quick Add +</button></a>
+                </div>
+              </div>
+              <div class="product-detail pt-3 text-center">
+                <h3 class="h6 mb-1 fw-bold"><%= product.product_name %></h3>
+                <span class="text-muted small">₹<%= product.price %></span>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="subscribe">
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-7" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-4">JOIN THE CLUB</h2>
+        <p class="mb-5 opacity-75">Subscribe to receive updates, access to exclusive deals, and more.</p>
+        <form class="d-flex gap-3 justify-content-center">
+          <input type="email" placeholder="YOUR EMAIL ADDRESS" required>
+          <button class="btn btn-light rounded-0 px-4 fw-bold">JOIN</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({ duration: 1000, once: true, offset: 50 });
+    
+    // Smooth transitions for Category Tabs
+    const tabs = document.querySelectorAll('.tab-pill');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        tabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        // Logic for filtering can be added here
+      });
+    });
+  });
+</script>
+
+<%-include("footer.ejs")%>

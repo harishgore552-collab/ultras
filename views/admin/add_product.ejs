@@ -1,0 +1,87 @@
+<%-include("navbar.ejs")%>
+<div class="container bg-white">
+    <form action="/admin/save_product" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <h2>Add Product</h2>
+                <div class="col-md-6 mt-3">
+                    Product Category <b class="text-danger">*</b>
+                    <select class="form-control" name="product_category" required id="">
+                        <option value=""></option>
+                        <% category.map(function(item,i){ %>
+                            <option value="<%= item.category_name %>"><%= item.category_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Name <b class="text-danger">*</b>
+                    <input class="form-control " type="text" name="product_name" id="" required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Company <b class="text-danger">*</b>
+                    <input class="form-control " type="text" name="product_company" id=""required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Color <b class="text-danger">*</b>
+                    <input class="form-control " type="text" name="product_color" id="" required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Label <b class="text-danger">*</b>
+                    <input class="form-control " type="text" name="product_label" id="" required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Image 1 <b class="text-danger">*</b>
+                    <input class="form-control  bg-white border text-light " type="file" name="product_image1" id="" required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Image 2 <b class="text-danger">*</b>
+                    <input class="form-control  bg-white border text-light" type="file" name="product_image2" id="" required>
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Image 3
+                    <input class="form-control  bg-white border text-light" type="file" name="product_image3" id="" >
+                </div>
+                <div class="col-md-6 mt-3">
+                    Product Image 4
+                    <input class="form-control  bg-white border text-light " type="file" name="product_image4" id="">
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mt-2">
+            <table class="table table-sm table-striped">
+                <tr>
+                    <th class="text-center">Size</th>
+                    <th class="text-center">Price <b class="text-danger">*</b></th>
+                    <th class="text-center">Duplicate Price <b class="text-danger">*</b></th>
+                </tr>
+                <% 
+                    var size = ["xs","s","m","l","xl","xxl"]; 
+                %>
+                <%for(var i=0;i<size.length;i++){ %>
+                    
+
+                    <tr>
+                        <td class="text-center  "><input class="form-control" type="text" readonly name="product_size" value="<%= size[i] %>"></td>
+                        <td><input class="form-control  "  type="text" name="product_price" id=""></td>
+                        <td><input class="form-control " type="text" name="product_duplicate_price" id=""></td>
+                        
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+    Product Details <br>
+    <textarea class="editor w-100" name="product_details" id=""></textarea>
+    
+    </div>
+    <div class="col-md-12 text-center">
+    <button class="btn btn-primary w-25 ">Add product</button>
+    </div>
+    </div>
+    </form>
+</div>
+

@@ -1,0 +1,45 @@
+<%-include("navbar") %>
+    <div class="container bg-white">
+        <h2 style="text-transform: capitalize;"><%= status %> List</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Sr.no</th>
+                            <th>Customer Name</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.map(function(order,i) { %>
+                            <tr>
+                                <td style="padding-left: 5px;"><a href="/admin/order_info/<%= order.order_id %>"><button class="btn btn-primary btn-sm">Details</button></a></td>
+                                <td>
+                                    <%= i+1 %>
+                                </td>
+                                <td>
+                                    <%= order.customer_name || "-" %>
+                                </td>
+                                <td>
+                                    <%= order.customer_mobile || "-" %>
+                                </td>
+                                
+                                <td>
+                                    <%= order.customer_area || "-" %>,<%= order.customer_city || "-" %>,<%= order.customer_state || "-" %>,<%= order.customer_pincode || "-" %>
+                                </td>
+                                <td>
+                                    ₹<%= order.order_amount %> - <%= order.payment_type %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <%-include("footer") %>

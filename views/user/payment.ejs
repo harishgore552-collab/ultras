@@ -1,0 +1,45 @@
+<html>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  var options = {
+    "key": "rzp_test_bpN3aN81Oaf8Mo",
+    "amount": `<%= cos_info[0].order_amount * 100 %> `,
+    "currency": "INR",
+    "name": "<%= cos_info[0].customer_name %>",
+    "description": "Test Payment",
+    "image": "https://www.freepik.com/free-photos-vectors/4k-wallpaper-cat",
+
+    "method": {
+      "upi": true,
+      "card": true,
+      "wallet": true,
+      "netbanking": true,
+      "emi": true
+    },
+
+    // ✅ AUTO REDIRECT URL AFTER PAYMENT
+    "callback_url": "http://localhost:3000/check_payment/"+'<%= order_id %>', 
+    "redirect": true,
+
+    "prefill": {
+      "name": '<%= cos_info[0].customer_name %>',
+      "email": "gaurav.kumar@example.com",
+      "contact": "<%= cos_info[0].customer_mobile %>"
+    },
+
+    "theme": {
+      "color": "#3399cc"
+    }
+  };
+
+  var rzp1 = new Razorpay(options);
+
+  
+    rzp1.open();
+    e.preventDefault();
+  
+</script>
+</html>

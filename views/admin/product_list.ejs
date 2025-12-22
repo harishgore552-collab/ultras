@@ -1,0 +1,51 @@
+<%-include("navbar.ejs")%>
+   
+
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Product List</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-striped">
+                <tr>
+                    <th>Action</th>
+                    <th>Sr/No</th>
+                    <th>Product Name</th>
+                    <th>Company</th>
+                    <th>Label</th>
+                    <th>category</th>
+                    <th>Color</th>
+                    <th>Price Range</th>
+                </tr>
+
+               
+                <% product_info.map(function(val,i){ %>
+                <tr>
+                    <td>
+
+                        <a href="/admin/view/<%= val.product_id %>" class="btn btn-sm bg-success "><i class="fa fa-eye"></i></a>
+                        <a href="/admin/edit_product/<%= val.product_id %>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                        <a href="/admin/delete_product/<%= val.product_id %>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                    </td>
+
+                    <td><%= i + 1 %></td>
+                    <td><%= val.product_name %></td>
+                    <td><%= val.product_company %></td>
+                    <td><%= val.product_label %></td>
+                    <td><%= val.product_category %></td>
+                    <td><%= val.product_color %></td>
+                    <td><%= val.product_price %> - <%= val.product_duplicate_price %></td>
+                </tr>
+                <% }) %>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include("footer.ejs") %>
+

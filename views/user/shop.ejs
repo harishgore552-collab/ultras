@@ -1,0 +1,225 @@
+<%-include("header.ejs")%>
+
+<style>
+  /* Custom Smooth Animations */
+  .product-item {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 15px;
+  }
+
+  .product-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    background: #fff;
+  }
+
+  .product-image {
+    transition: transform 0.5s ease;
+  }
+
+  .product-item:hover .product-image {
+    transform: scale(1.1);
+  }
+
+  .zoom-effect img {
+    transition: 0.5s ease;
+  }
+
+  .zoom-effect:hover img {
+    transform: scale(0.5) rotate(2deg);
+  }
+
+  /* Animated Search Bar */
+  .search-field {
+    transition: width 0.4s ease;
+    border-radius: 20px 0 0 20px !important;
+  }
+  
+  .search-field:focus {
+    width: 110%;
+    border-color: #23a6d5;
+  }
+
+  .tags-item a {
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .tags-item a:hover {
+    padding-left: 10px;
+    color: #e73c7e !important;
+  }
+</style>
+
+<section class="site-banner jarallax min-height300 padding-large" 
+         style="background: url(images/hero-image.jpg) no-repeat; background-position: top;"
+         data-aos="fade">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 animate__animated animate__fadeInDown">
+        <h1 class="page-title">Shop page</h1>
+        <div class="breadcrumbs">
+          <span class="item"><a href="index.html">Home /</a></span>
+          <span class="item">Shop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="shopify-grid padding-large">
+  <div class="container">
+    <div class="row">
+
+      <section id="selling-products" class="col-md-9 product-store">
+        <div class="container">
+          <ul class="tabs list-unstyled d-flex gap-3" data-aos="fade-up">
+            <a href="/shop"><li class="active tab">All</li></a>
+            <% category.map(function(item,i){ %>
+              <a href="/shop?category_name=<%= item.category_name%>">
+                <li class="tab"><%= item.category_name %></li>
+              </a>
+            <% }) %>
+          </ul>
+
+          <div class="tab-content">
+            <div id="all" class="active">
+              <div class="row d-flex flex-wrap">
+                <% product.map(function(item,i){ %>
+                  <div class="col-lg-4 col-md-6 col-sm-6 mb-4" 
+                       data-aos="zoom-in" 
+                       data-aos-delay="<%= i * 50 %>">
+                    <a href="/view_product/<%= item.product_id %>" class="text-decoration-none">
+                      <div class="product-item">
+                        <div class="image-holder">
+                          <img style="height:300px; object-fit: cover;" src="/upload/<%= item.product_image1 %>" alt="Books" class="product-image w-100">
+                        </div>
+                        <div class="product-detail mt-3">
+                          <h3 class="product-title"><%= item.product_name %></h3>
+                          <div class="item-price text-primary">
+                            &#8377; <%= item.price %> 
+                            <del style="color: red; opacity: 0.5; font-size: 0.8em; margin-left: 5px;">
+                              <%= item.product_duplicate_price %>
+                            </del>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="col-md-3" data-aos="fade-left">
+        <div class="sidebar">
+          <div class="widgets widget-menu">
+            <div class="widget-search-bar">
+              <form role="search" method="get" class="d-flex">
+                <input class="search-field form-control" name="product_name" placeholder="Search" type="text">
+                <button class="btn btn-dark"><i class="icon icon-search"></i></button>
+              </form>
+            </div> 
+          </div>
+
+          <div class="widgets mt-5">
+            <h5 class="widget-title">Colors</h5>
+            <ul class="product-tags sidebar-list list-unstyled">
+              <% color.map(function(item,i){ %> 
+                <li class="tags-item">
+                  <a href="/shop?product_color=<%= item.product_color%>" class="text-muted"><%= item.product_color %></a>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+          </div>
+      </aside>
+    </div>        
+  </div>      
+</div>
+
+<section id="latest-blog" class="padding-large">
+  <div class="container" data-aos="fade-up">
+    <div class="section-header d-flex flex-wrap align-items-center justify-content-between">
+      <h2 class="section-title">our Journal</h2>
+      <div class="btn-wrap">
+        <a href="blog.html" class="d-flex align-items-center">Read All Articles <i class="icon icon-arrow-io"></i></a>
+      </div>
+    </div>
+    <div class="row">
+      <article class="col-md-4 post-item" data-aos="flip-left" data-aos-delay="100">
+        <div class="image-holder zoom-effect">
+          <img src="images/post-img1.jpg" alt="post" class="post-image img-fluid">
+        </div>
+        <div class="post-content d-flex mt-3">
+            </div>
+      </article>
+      </div>
+  </div>
+</section>
+
+<section id="instagram" class="padding-large">
+  <div class="container">
+    <h2 class="section-title text-center" data-aos="fade-down">Follow our instagram</h2>
+    <div class="row d-flex flex-wrap mt-5">
+      <% [1,2,3,4,5,6].forEach(function(i) { %>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3" data-aos="zoom-in-up" data-aos-delay="<%= i * 100 %>">
+        <figure class="zoom-effect position-relative overflow-hidden">
+          <img src="images/insta-image<%=i%>.jpg" alt="instagram" class="insta-image img-fluid">
+          <div class="insta-overlay d-flex justify-content-center align-items-center">
+             <i class="icon icon-instagram text-white fs-1"></i>
+          </div>
+        </figure>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section id="shipping-information" data-aos="fade-up">
+  <hr>
+  <div class="container padding-medium">
+    <div class="row text-center">
+      <div class="col-md-3 col-sm-6" data-aos="bounce-in">
+        <div class="icon-box">
+          <i class="icon icon-truck fs-1 text-primary"></i>
+          <h4 class="mt-2">Free shipping</h4>
+        </div>
+      </div>
+      </div>
+  </div>
+  <hr>
+</section>
+
+<%-include("footer.ejs")%>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  // Initialize Animate On Scroll
+  AOS.init({
+    duration: 800,
+    once: true, // Set to false if you want it to animate every time you scroll up/down
+    offset: 100
+  });
+
+  // GSAP for Initial Page Load (Banner Text)
+  gsap.from(".page-title", {
+    duration: 1,
+    y: -50,
+    opacity: 0,
+    ease: "bounce.out"
+  });
+
+  gsap.from(".breadcrumbs", {
+    duration: 1,
+    x: -50,
+    opacity: 0,
+    delay: 0.3,
+    ease: "power2.out"
+  });
+</script>

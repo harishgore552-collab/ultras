@@ -1,0 +1,270 @@
+<%- include("header.ejs") %>
+
+<link rel="stylesheet" href="/css/my-orders.css">
+
+<div class="orders-page">
+
+  <div class="page-header">
+    <h1>My Orders</h1>
+    <p>View your order history & purchases</p>
+  </div>
+
+  <% if(orders.length === 0){ %>
+    <div class="empty-orders">
+      <h3>No orders found 😕</h3>
+      <a href="/shop" class="shop-btn">Continue Shopping</a>
+    </div>
+  <% } %>
+
+  <% orders.forEach(order => { %>
+
+  <div class="order-card">
+
+    <!-- ORDER HEADER -->
+    <div class="order-top">
+      <div>
+        <span class="order-id">Order #<%= order.order_id %></span>
+        <span class="order-date">Item ID: <%= order.order_det_id %></span>
+      </div>
+
+      <span class="order-status delivered">
+        Confirmed
+      </span>
+    </div>
+
+    <!-- PRODUCT INFO -->
+    <div class="order-body">
+      <img src="/upload/<%= order.product_image1 %>" alt="product">
+
+      <div class="order-info">
+        <h3><%= order.product_name %></h3>
+
+        <p class="meta">
+          Brand: <b><%= order.product_company %></b>
+        </p>
+
+        <p class="meta">
+          Color: <%= order.product_color %> |
+          Size: <%= order.product_size %>
+        </p>
+
+        <p class="meta">
+          Qty: <%= order.product_qty %>
+        </p>
+
+        <p class="price">₹<%= order.product_total %></p>
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="order-actions">
+      <a href="/order_info/<%= order.order_id %>" class="btn view">
+        View Order
+      </a>
+
+      <a href="/email_send/<%= order.order_id %>" class="btn invoice">
+        Get Invoice
+      </a>
+    </div>
+
+  </div>
+
+  <% }) %>
+
+</div>
+
+<%- include("footer.ejs") %>
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  min-height: 100vh;
+}
+
+/* Page Wrapper */
+.orders-page {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Header */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.page-header p {
+  color: #555;
+  margin-top: 8px;
+}
+
+/* Order Card */
+.order-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.4s, box-shadow 0.4s;
+  animation: slideUp 0.8s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Top Section */
+.order-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.order-id {
+  font-weight: 500;
+  display: block;
+}
+
+.order-date {
+  font-size: 13px;
+  color: #777;
+}
+
+/* Status Badge */
+.order-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.delivered {
+  background: #e6f7ee;
+  color: #2e8b57;
+}
+
+.pending {
+  background: #fff3cd;
+  color: #b08900;
+}
+
+/* Body */
+.order-body {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.order-body img {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.order-info h3 {
+  font-size: 18px;
+}
+
+.order-info p {
+  font-size: 14px;
+  color: #555;
+}
+
+.price {
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Actions */
+.order-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.view {
+  background: #111;
+  color: #fff;
+}
+
+.invoice {
+  background: #007bff;
+  color: #fff;
+}
+
+.cancel {
+  background: #dc3545;
+  color: #fff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media(max-width: 600px) {
+  .order-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .order-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+
+</style>
+</body>
+</html>
+

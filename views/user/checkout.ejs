@@ -1,0 +1,89 @@
+<%-include("header") %>
+<form action="/order" method="post">
+    <div class="container" style="margin-top: 50px;margin-bottom: 100px;">
+        <h2>Costomer Details</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                        <div class="col-md-6">
+                            Enter name <br>
+                            <input class="form-control" type="text" name="customer_name" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter mobile <br>
+                            <input class="form-control" type="number" name="customer_mobile" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter state <br>
+                            <input class="form-control" type="text" name="customer_state" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter district <br>
+                            <input class="form-control" type="text" name="customer_district" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter city <br>
+                            <input class="form-control" type="text" name="customer_city" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter area <br>
+                            <input class="form-control" type="text" name="customer_area" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter landmark <br>
+                            <input class="form-control" type="text" name="customer_landmark" id="">
+                        </div>
+                        <div class="col-md-6">
+                            Enter pincode <br>
+                            <input class="form-control" type="number" name="customer_pincode" id="">
+                        </div>
+
+                       
+                </div>
+            </div>
+            <% var total = 0 %> 
+            <div class="col-md-4 " style="padding: 10px;">
+                <h3>Order Summary</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-md-9">
+                        <% cart.map(function(item,i){ %> 
+                
+                        <p><span><%= item.product_name %></span> &nbsp;&nbsp;<span>x &nbsp;<%= item.qty %></span></p>
+                        <% }) %>
+                    </div>
+                    <div class="col-md-3">
+                        <% cart.map(function(item,i){ %> 
+
+                        <p>₹<%= item.product_price * item.qty %></p>
+                        <% total += (item.product_price * item.qty) %>
+
+                        <% }) %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8">
+                        <b>Total</b><br><br>
+                        <select name="payment_type" class="form-control" id="">
+                            <option >Select payment type</option>
+                            <option value="online" >Online payment</option>
+                            <option value="offline">Cash on Delivery</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">₹<input type="text" readonly name="order_amount" value="<%=total%>" id=""></div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center">
+                <button class="btn btn-dark ">Order NOw</button>
+            </div>
+        </div>
+        
+    </div>
+</form>
+    <style>
+        input{
+            width: 100%;
+        }
+    </style>
+<%-include("footer") %>

@@ -1,0 +1,284 @@
+<%-include("navbar") %>
+
+
+<script>
+    function printr(){
+        var data = document.getElementById('print_page').innerHTML;
+        document.write(data);
+        print();
+    }
+</script>
+
+
+
+
+<div class="invoice" id="print_page">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    padding:40px 20px;
+}
+
+.invoice{
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    padding:40px;
+    border:1px solid #ddd;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.brand{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.order-info{
+    text-align:right;
+    font-size:15px;
+    line-height:1.8;
+}
+
+.order-info span{
+    color:#777;
+}
+
+/* CUSTOMER */
+.customer{
+    margin-top:30px;
+    font-size:15px;
+    line-height:1.8;
+}
+
+.customer strong{
+    color:#555;
+}
+
+/* DIVIDER */
+.divider{
+    border-top:1px solid #ddd;
+    margin:35px 0;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    color:#777;
+    font-weight:600;
+    padding-bottom:15px;
+}
+
+td{
+    padding:18px 0;
+    font-size:15px;
+    color:#444;
+}
+
+td small{
+    display:block;
+    color:#888;
+    margin-top:6px;
+}
+
+.qty, .rate{
+    text-align:center;
+}
+
+.price{
+    text-align:right;
+}
+
+/* TOTAL */
+.total-row{
+    border-top:1px solid #000;
+}
+
+.total-row td{
+    padding-top:20px;
+    font-weight:700;
+    font-size:18px;
+}
+
+.total-text{
+    text-align:center;
+    color:#666;
+}
+
+/* STATUS */
+.status{
+    margin-top:20px;
+    font-size:14px;
+    color:#555;
+}
+
+.badge{
+    padding:5px 12px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:600;
+}
+
+
+.pending{ background:#fff3cd; color:#856404; }
+.placed{ background:#dbeafe; color:#1e40af; }
+.shipped{ background:#cffafe; color:#155e75; }
+.delivered{ background:#dcfce7; color:#166534; }
+</style>
+<!-- HEADER -->
+<div class="header">
+    <div class="brand">ULTRAS</div>
+
+    <div class="order-info">
+        <div><strong>Order ID :</strong> <span>#ultras<%= ord_info[0].order_id %></span></div>
+        <div><strong>Order Date :</strong> <span><%= cos_info[0].order_date %></span></div>
+        <div>
+            <strong>Order Status :</strong>
+            <span class="badge <%= cos_info[0].order_status %>">
+                <%= cos_info[0].order_status %>
+            </span>
+        </div>
+        <% if(cos_info[0].transaction_id){ %>
+        <div><strong>Transaction :</strong> <span><%= cos_info[0].transaction_id %></span></div>
+        <% } %>
+    </div>
+</div>
+
+<!-- CUSTOMER -->
+<div class="customer">
+    <div><strong>First Name :</strong> <%= cos_info[0].customer_name %></div>
+    <div><strong>Customer Mobile :</strong> <%= cos_info[0].customer_mobile %></div>
+    <div>
+        <strong>Address :</strong>
+        <%= cos_info[0].customer_area %>,
+        <%= cos_info[0].customer_city %>,
+        <%= cos_info[0].customer_district %>,
+        <%= cos_info[0].customer_state %> -
+        <%= cos_info[0].customer_pincode %>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ITEMS TABLE -->
+<table>
+<thead>
+<tr>
+    <th>Item Name</th>
+    <th class="qty">Quantity</th>
+    <th class="rate">Rate</th>
+    <th class="price">Total Price</th>
+</tr>
+</thead>
+
+<tbody>
+<% let Subtotal1 = 0; %>
+<% ord_info.forEach(function(item){ %>
+<tr>
+    <td>
+        <%= item.product_name %>
+        <small>
+            <%= item.product_size %>,
+            <%= item.product_color %>,
+            <%= item.product_company %>
+        </small>
+    </td>
+    <td class="qty"><%= item.product_qty %></td>
+    <td class="rate"><%= item.product_price %></td>
+    <td class="price"><%= item.product_price * item.product_qty %></td>
+</tr>
+<% Subtotal1 += item.product_price * item.product_qty; %>
+<% }) %>
+
+<!-- TOTAL -->
+<tr class="total-row">
+    <td colspan="3" class="total-text">Total</td>
+    <td class="price">₹ <%= Subtotal1 %></td>
+</tr>
+</tbody>
+</table>
+
+<!-- PAYMENT INFO -->
+<div class="status">
+    <strong>Payment Method :</strong> <%= cos_info[0].payment_type %>
+</div>
+<div class="status">
+    <strong>Payment Status :</strong> <%= cos_info[0].payment_status %>
+</div>
+
+</div>
+
+
+
+<div class="panel panel-default text-center mt-4">
+    <div class="panel-body">
+        <a onclick="printr()" class="btn btn-secondary">
+            <i class="fa fa-print"></i> PRINT
+        </a>
+        <a href="/admin/change_status/<%= ord_info[0].order_id %>/cancelled" class="btn btn-primary">
+            <i class="fa fa-cancel"></i> cancel
+        </a>
+        <a href="/admin/change_status/<%= ord_info[0].order_id %>/rejected" class="btn btn-danger">
+            <i class=""></i> rejected
+        </a>
+        <a href="/admin/change_status/<%= ord_info[0].order_id %>/returned" class="btn btn-dark">
+            <i class=""></i> returned
+        </a>
+        <a href="/admin/change_status/<%= ord_info[0].order_id %>/delivered" class="btn btn-success">
+            <i class=""></i> delivered
+        </a>
+        <a href="/admin/change_status/<%= ord_info[0].order_id %>/dispatched" class="btn btn-info">
+            <i class=""></i> dispatched
+        </a>
+
+    </div>
+</div>
+
+<br><br>
+
+
+
+
+<%-include("footer") %>
+
+
+<!-- CREATE TABLE a2z50.order_tbl (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+
+    customer_name VARCHAR(150) ,
+    customer_mobile VARCHAR(15) ,
+
+    customer_state VARCHAR(100) ,
+    customer_district VARCHAR(100) ,
+    customer_city VARCHAR(100) ,
+    customer_area VARCHAR(150) ,
+    customer_landmark VARCHAR(150),
+    customer_pincode VARCHAR(10) ,
+
+    payment_type VARCHAR(20) ,
+    order_date TEXT ,
+    order_amount INT ,
+
+    payment_status VARCHAR(20),
+    order_status VARCHAR(20) ,
+    transaction_id VARCHAR(100)
+);
+-->

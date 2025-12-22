@@ -1,0 +1,295 @@
+<%-include("header") %>
+
+
+
+<div class="cart-wrapper">
+
+    <h1>🛒 Shopping Cart</h1>
+
+    <div class="cart-layout">
+
+        <!-- Cart Items -->
+        <div class="cart-box">
+            <% var subtotal = 0; %>
+            <% cart.map(function(item,i){ %>
+                
+                <div class="cart-item">
+                    <img src="/upload/<%= item.product_image1 %>" alt="">
+                    <div class="info">
+                        <h3><%= item.product_name %></h3><br>
+                        <b style="color: black;"><%= item.product_size %> </b><br>
+                        <span class="tag">In Stock</span>
+                        <p>₹<%= item.product_price %></p>
+                    </div>
+                    <div class="qty">
+                        <button onclick="quantity('dec','<%= item.cart_id %>')">-</button>
+                        <input type="text" id="qty" value="<%= item.qty %>" min="1">
+                        <button class="btn btn-success" onclick="quantity('inc','<%= item.cart_id %>')">+</button>
+                    </div>
+                    <div class="total">₹<%= item.product_price * item.qty %></div>
+                    <a href="/delete/<%= item.cart_id %>"><i class="fa fa-trash delete"></i></a>
+                </div>
+                <% subtotal +=  item.product_price * item.qty  %>
+            <% }) %>
+
+            <!-- <div class="cart-item">
+                <img src="https://via.placeholder.com/130" alt="">
+                <div class="info">
+                    <h3>Running Shoes</h3>
+                    <span class="tag red">Limited</span>
+                    <p>₹1,299</p>
+                </div>
+                <div class="qty">
+                    <button>-</button>
+                    <input type="text" value="1">
+                    <button>+</button>
+                </div>
+                <div class="total">₹1,299</div>
+                <i class="fa fa-trash delete"></i>
+            </div> -->
+
+        </div>
+
+        <!-- Summary -->
+        <div class="summary">
+            <h2>Order Summary</h2>
+
+            <div class="row">
+                <span>Subtotal</span>
+                <span>₹<%= subtotal %></span>
+            </div>
+
+            <div class="row">
+                <span>Delivery</span>
+                <span>₹0</span>
+            </div>
+
+            <div class="row discount">
+                <span>Discount</span>
+                <span>-₹0</span>
+            </div>
+
+            <hr>
+
+            <div class="row total-pay">
+                <span>Total</span>
+                <span>₹<%= subtotal %></span>
+            </div>
+
+            <a href="/checkout">
+                <button class="checkout-btn">
+                Proceed to Checkout <i class="fa fa-arrow-right"></i>
+                </button>
+            </a>
+        </div>
+
+    </div>
+</div>
+<script>
+    function quantity(op,cart_id){
+        if(op=='dec'){
+            let url = '/quantity/'+cart_id+"/"+op;
+            location.href=url;
+        }else if(op=='inc'){
+            let url = '/quantity/'+cart_id+"/"+op;
+            location.href=url;
+            
+        }
+    }
+</script>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    padding:40px 0;
+} */
+
+/* Wrapper */
+.cart-wrapper{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    padding: 30px;
+    margin-bottom: 100px;
+
+}
+
+.cart-wrapper h1{
+    color:#fff;
+    margin-bottom:25px;
+}
+
+/* Layout */
+.cart-layout{
+    display:flex;
+    gap:25px;
+}
+
+/* Glass Box */
+.cart-box, .summary{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* Items */
+.cart-box{
+    flex:3;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:rgba(255,255,255,0.2);
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:15px;
+    transition:0.5s;
+}
+
+.cart-item:hover{
+    transform:scale(1.02);
+}
+
+.cart-item img{
+    width:110px;
+    border-radius:12px;
+}
+
+/* Info */
+.info{
+    flex:1;
+    color:#fff;
+}
+
+.info h3{
+    font-size:18px;
+    display: inline;
+}
+
+.info p{
+    margin-top:5px;
+}
+
+.tag{
+    display:inline-block;
+    background:#4caf50;
+    color:#fff;
+    padding:3px 10px;
+    border-radius:20px;
+    font-size:12px;
+    margin:5px 0;
+}
+
+.tag.red{
+    background:#ff5252;
+}
+
+/* Qty */
+.qty{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.qty button{
+    /* background:#970a0a; 
+    border:none;
+    width:30px;
+    height:30px; */
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.qty input{
+    width:35px;
+    text-align:center;
+    border:none;
+    border-radius:8px;
+    padding:5px;
+    font-size: 25px;
+}
+
+/* Price */
+.total{
+    color:#fff;
+    font-weight:600;
+}
+
+/* Delete */
+.delete{
+    color:#ffb3b3;
+    cursor:pointer;
+}
+.delete:hover{
+    color:#cd1515;
+
+}
+
+/* Summary */
+.summary{
+    flex:1;
+    color:#fff;
+}
+
+.summary h2{
+    margin-bottom:15px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.discount{
+    color:#7CFFB2;
+}
+
+.total-pay{
+    font-size:18px;
+    font-weight:600;
+}
+
+.checkout-btn{
+    width:100%;
+    background:#fff;
+    color:#764ba2;
+    padding:12px;
+    border:none;
+    border-radius:30px;
+    margin-top:20px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.checkout-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .cart-layout{
+        flex-direction:column;
+    }
+}
+
+
+</style>
+<%-include("footer") %>

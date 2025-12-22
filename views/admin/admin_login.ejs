@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin login</title>
+    <link href="/admin/vendor/bootstrap-5.3.8.min.css" rel="stylesheet" media="all">
+
+</head>
+<style>
+        .password-box{
+            position: relative;
+            width: 250px;
+        }
+        .toggle-btn{
+            position: absolute;
+            left:805px;
+            top: 260px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+<body class="bg-dark">
+    <div class="container-fluid ">
+        <div class="row mt-5 pt-4">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center bg-light p-3 mt-5 " style="border-radius: 10px;">
+                <form action="/admin/" method="post">
+                Admin Id 
+                <input type="text" class="form-control" name="admin_id" id=""><br>
+                Password
+                <input type="password" id="password" name="admin_password" class="form-control" >
+                <br><br>
+                <button class="btn btn-primary">Login</button>
+                </form>
+                <button class="toggle-btn" onclick="togglePassword()">👁</button>
+            </div>
+            <div class="col-md-4"></div>
+
+        </div>
+    </div>
+    <script>
+    function togglePassword() {
+        var pass = document.getElementById("password");
+
+        if (pass.type === "password") {
+            pass.type = "text"; // show password
+        } else {
+            pass.type = "password"; // hide password
+        }
+    }
+</script>
+</body>
+</html>

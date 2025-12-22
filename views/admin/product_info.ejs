@@ -1,0 +1,84 @@
+<%-include("navbar.ejs") %>
+    <div class="container bg-white">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Product Info</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="image-holder">
+                    <div class="swiper main-swiper">
+                        <div class="swiper-wrapper">
+
+                            <% for (var i = 1; i <= 4; i++) { %>
+                                <% let image = product_detail[0]["product_image" + i]; %>
+                                <% if(image) { %>
+                                    <div class="swiper-slide site-banner"
+                                        style="background-image: url('/upload/<%= image %>');
+                                            background-repeat: no-repeat;
+                                            background-size: cover;
+                                            background-position: center;">
+                                    </div>
+                                <% } %>
+                            <% } %>
+
+                        </div>
+                    </div>
+                    <div class="pdetail p-2">
+                        <h3 style="display: inline;"><%= product_detail[0].product_name %></h3><br>
+                        color:<p class="d-inline" style="box-shadow:2px 2px 10px black"><%=  product_detail[0].product_color %></p><br>
+                        <p style="font-size: 25px;" class="d-inline text-success ">₹<%= product_price[0].product_price %></p><p style="margin-left: 10px;color: gray; text-decoration: line-through;" class="  d-inline-block  ">₹<%= product_price[0].product_duplicate_price %></p>
+                        <br>
+                        <p style="font-size: 14px;"><%= product_detail[0].product_details %></p><br>
+                        <% product_price.map(function(item,i){ %>
+                            <p style="font-size: 14px;"><%= item.product_size %></p>
+                        <% }) %>
+                        
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <style>
+        p{
+            display: inline;
+        }
+        .card{
+            height: auto;
+            width: 500px;
+        }
+        .pslider{
+            height: 400px;
+            overflow: scroll;
+        }
+    </style>
+<%-include("footer.ejs") %>
+            <!-- <div class="swiper-slide">
+              <div class="product-item">
+                <div class="image-holder">
+                  <img src="/images/product-item2.jpg" alt="Books" class="product-image">
+                </div>
+                <div class="cart-concern">
+                  <div class="cart-button d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn-wrap cart-link d-flex align-items-center">add to cart <i class="icon icon-arrow-io"></i>
+                    </button>
+                    <button type="button" class="view-btn tooltip
+                        d-flex">
+                      <i class="icon icon-screen-full"></i>
+                      <span class="tooltip-text">Quick view</span>
+                    </button>
+                    <button type="button" class="wishlist-btn">
+                      <i class="icon icon-heart"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-detail">
+                  <h3 class="product-title">
+                    <a href="single-product.html">Volunteer Half blue</a>
+                  </h3>
+                  <span class="item-price text-primary">₹3800.00</span>
+                </div>
+              </div>
+            </div> -->
